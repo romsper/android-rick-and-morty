@@ -9,8 +9,8 @@ import com.romsper.firebase_authentication.databinding.ActivityLoginBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 
-import com.romsper.firebase_authentication.helpers.BaseActivity
-import com.romsper.firebase_authentication.ui.MainActivity
+import com.romsper.firebase_authentication.util.BaseActivity
+import com.romsper.firebase_authentication.ui.main.view.MainActivity
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private lateinit var snackbar: Snackbar

@@ -3,7 +3,7 @@ package com.romsper.firebase_authentication.ui.login
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.romsper.firebase_authentication.databinding.ActivityForgotBinding
-import com.romsper.firebase_authentication.helpers.BaseActivity
+import com.romsper.firebase_authentication.util.BaseActivity
 
 class ForgotActivity : BaseActivity<ActivityForgotBinding>(ActivityForgotBinding::inflate) {
 

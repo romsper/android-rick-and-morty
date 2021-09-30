@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.helpers
+package com.romsper.firebase_authentication.util
 
 import android.os.Bundle
 import android.view.LayoutInflater
