@@ -9,7 +9,7 @@
         android:id="@+id/contactAvatar"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="10dp"
+        android:paddingBottom="10dp"
         android:background="@drawable/img_favorites"
         android:contentDescription="@string/title_contacts" />
 
