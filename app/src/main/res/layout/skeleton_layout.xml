@@ -11,7 +11,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin">
 
     <View
-        android:id="@+id/titleFavorites"
+        android:id="@+id/skeletonTitleFavorites"
         android:layout_width="100dp"
         android:layout_height="15dp"
         android:background="@drawable/skeleton"
@@ -26,8 +26,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="44dp"
         android:background="@drawable/skeleton"
-        app:layout_constraintEnd_toEndOf="@id/titleFavorites"
-        app:layout_constraintTop_toBottomOf="@id/titleFavorites" />
+        app:layout_constraintEnd_toEndOf="@id/skeletonTitleFavorites"
+        app:layout_constraintTop_toBottomOf="@id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar2"
@@ -37,7 +37,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar1"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar3"
@@ -47,7 +47,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar2"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar4"
@@ -57,7 +57,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar3"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar5"
@@ -67,7 +67,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar4"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar6"
@@ -77,7 +77,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar5"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/favAvatar7"
@@ -87,7 +87,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
         app:layout_constraintStart_toEndOf="@+id/favAvatar6"
-        app:layout_constraintTop_toBottomOf="@+id/titleFavorites" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletonTitleFavorites" />
 
     <View
         android:id="@+id/titleContacts"
@@ -95,8 +95,8 @@
         android:layout_height="15dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/skeleton"
-        app:layout_constraintStart_toEndOf="@id/titleFavorites"
-        app:layout_constraintStart_toStartOf="@id/titleFavorites"
+        app:layout_constraintStart_toEndOf="@id/skeletonTitleFavorites"
+        app:layout_constraintStart_toStartOf="@id/skeletonTitleFavorites"
         app:layout_constraintTop_toBottomOf="@+id/favAvatar1" />
 
     <View
