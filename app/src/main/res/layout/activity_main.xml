@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,25 +19,31 @@
         android:layout_marginTop="50dp"
         android:text="@string/title_contacts"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <SearchView
         android:id="@+id/search"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
-        android:autofillHints="@string/hint_search"
         android:background="@drawable/input_signin"
-        android:hint="@string/hint_search"
         android:inputType="textAutoComplete"
         android:selectAllOnFocus="false"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:focusable="false"
+        android:theme="@style/SearchAutoCompleteTextView"
+
+        android:queryHint="Search..."
+        android:iconifiedByDefault="false"
+        android:searchIcon="@null"
+
+        android:queryBackground="@null"
+        android:submitBackground="@null"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleContacts" />
@@ -90,7 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleMyContacts"
         tools:listitem="@layout/recycler_contacts_item" />
-
 
     <!--    <ProgressBar-->
     <!--        android:id="@+id/loading"-->

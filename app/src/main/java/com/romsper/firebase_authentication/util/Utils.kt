@@ -1,23 +1,25 @@
 package com.romsper.firebase_authentication.util
 
+import android.app.Activity
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import com.romsper.firebase_authentication.model.CharactersResponse
-import retrofit2.Response
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 
-//object Utils {
-//    fun hasInternetConnection(application: Response<CharactersResponse>): Boolean {
-//        val connectivityManager = application.getSystemService(
-//            Context.CONNECTIVITY_SERVICE
-//        ) as ConnectivityManager
-//        val activeNetwork = connectivityManager.activeNetwork ?: return false
-//        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-//        return when {
-//            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-//            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-//            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-//            else -> false
-//        }
-//    }
-//}
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}

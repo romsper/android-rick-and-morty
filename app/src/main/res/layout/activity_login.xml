@@ -12,6 +12,15 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.login.LoginActivity">
 
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_banner_foreground" />
+
+
     <TextView
         android:id="@+id/txtWelcome"
         android:layout_width="0dp"
@@ -19,7 +28,7 @@
         android:layout_marginTop="150dp"
         android:text="@string/action_sign_in"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +46,7 @@
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         android:textColorHint="@color/grey"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtWelcome" />
@@ -53,7 +62,7 @@
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         android:textColorHint="@color/grey"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
@@ -77,7 +86,7 @@
         android:background="@drawable/secondary_btn"
         android:enabled="true"
         android:text="@string/forgot_password"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/btnLogin"

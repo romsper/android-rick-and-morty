@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">firebase-authentication</string>
+    <string name="app_name">Rick and Morty - personal WIKI</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome"</string>
-    <string name="hint_username">"user@email.com"</string>
-    <string name="hint_password">"user@email.com"</string>
+    <string name="hint_username">user@email.com</string>
+    <string name="hint_password">password</string>
     <string name="hint_search">Search…</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="title_contacts">Contacts</string>
+    <string name="title_contacts">Rick and Morty</string>
     <string name="title_favorites">Favorites</string>
 </resources>

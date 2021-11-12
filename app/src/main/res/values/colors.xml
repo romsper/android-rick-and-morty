@@ -8,6 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
-    <color name="grey">#BBBDBF</color>
-    <color name="light_grey">#FAFAFA</color>
+
+    <color name="grey">#AAADB0</color>
+    <color name="light_grey">#F3F4F5</color>
+    <color name="text">#333333</color>
+    <color name="ic_back_color">#939393</color>
+    <color name="morty_shirt">#FAF074</color>
+    <color name="rick_shirt">#9AD6D7</color>
+    <color name="main_color">#16ACC9</color>
 </resources>
