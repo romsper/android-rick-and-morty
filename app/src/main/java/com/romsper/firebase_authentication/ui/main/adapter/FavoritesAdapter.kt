@@ -12,7 +12,10 @@ import com.romsper.firebase_authentication.databinding.RecyclerFavoritesItemBind
 import com.romsper.firebase_authentication.util.FavoriteItem
 
 
-class FavoritesAdapter(private val items: ArrayList<FavoriteItem>, private val favoritesItemClickListener: FavoritesItemClickListener) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
+class FavoritesAdapter(
+    private val items: ArrayList<FavoriteItem>,
+    private val favoritesItemClickListener: FavoritesItemClickListener
+) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,23 +26,21 @@ class FavoritesAdapter(private val items: ArrayList<FavoriteItem>, private val f
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = items[position]
         holder.itemView.setOnClickListener {
-            val data = items[position]
-            holder.itemView.setOnClickListener {
-                favoritesItemClickListener.onFavoritesItemClickListener(data)
-            }
+            favoritesItemClickListener.onFavoritesItemClickListener(data)
         }
         return holder.bind(items[position])
     }
 
-    inner class ViewHolder(private val binding: RecyclerFavoritesItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: RecyclerFavoritesItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FavoriteItem) {
             Glide.with(binding.favoritesAvatar.context)
                 .load(item.avatarUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions().transform(RoundedCorners(30)))
                 .into(binding.favoritesAvatar)
-
             binding.favoritesName.text = item.name
         }
     }

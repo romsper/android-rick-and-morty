@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.romsper.firebase_authentication.databinding.ActivityMainBinding
 import com.romsper.firebase_authentication.model.Result
-import com.romsper.firebase_authentication.ui.contact.view.ContactActivity
-import com.romsper.firebase_authentication.ui.main.adapter.ContactsItemClickListener
-import com.romsper.firebase_authentication.ui.main.adapter.ContactsPagingAdapter
+import com.romsper.firebase_authentication.ui.character.view.CharacterActivity
+import com.romsper.firebase_authentication.ui.main.adapter.CharactersItemClickListener
+import com.romsper.firebase_authentication.ui.main.adapter.CharactersPagingAdapter
 import com.romsper.firebase_authentication.ui.main.adapter.FavoritesAdapter
 import com.romsper.firebase_authentication.ui.main.adapter.FavoritesItemClickListener
 import com.romsper.firebase_authentication.ui.main.viewmodel.MainViewModel
@@ -22,10 +22,10 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
-    ContactsItemClickListener, FavoritesItemClickListener {
+    CharactersItemClickListener, FavoritesItemClickListener {
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var contactsPagingAdapter: ContactsPagingAdapter
+    private lateinit var charactersPagingAdapter: CharactersPagingAdapter
     private lateinit var favoritesAdapter: FavoritesAdapter
     var characterName: String = ""
 
@@ -40,14 +40,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun initContactsPagingAdapter() {
         binding.recyclerContacts.layoutManager = LinearLayoutManager(this)
-        contactsPagingAdapter = ContactsPagingAdapter(this)
+        charactersPagingAdapter = CharactersPagingAdapter(this)
         binding.recyclerContacts.addItemDecoration(
             DividerItemDecoration(
                 binding.recyclerContacts.context,
                 (binding.recyclerContacts.layoutManager as LinearLayoutManager).orientation
             )
         )
-        binding.recyclerContacts.adapter = contactsPagingAdapter
+        binding.recyclerContacts.adapter = charactersPagingAdapter
     }
 
     private fun initFavoritesAdapter() {
@@ -69,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             false -> {
                 lifecycleScope.launch {
                     viewModel.getCharactersPaging().collectLatest { characters ->
-                        contactsPagingAdapter.submitData(characters)
+                        charactersPagingAdapter.submitData(characters)
                     }
                 }
             }
@@ -77,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 lifecycleScope.launch {
                     viewModel.searchCharactersPaging(characterName = characterName)
                         .collectLatest { characters ->
-                            contactsPagingAdapter.submitData(characters)
+                            charactersPagingAdapter.submitData(characters)
                         }
                 }
             }
@@ -96,13 +96,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-
-    override fun onContactsItemClickListener(item: Result) {
-        startActivity(Intent(this, ContactActivity::class.java).putExtra("contactId", item.id))
+    override fun onCharactersItemClickListener(item: Result) {
+        startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
     }
 
     override fun onFavoritesItemClickListener(item: FavoriteItem) {
-        startActivity(Intent(this, ContactActivity::class.java).putExtra("contactId", item.id))
+        startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
     }
 
     private fun initSearch() {

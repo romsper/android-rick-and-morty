@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -14,7 +17,7 @@ import java.lang.reflect.Type
 
 abstract class BaseActivity<B : ViewBinding>(val bindingFactory: (LayoutInflater) -> B) : AppCompatActivity() {
     lateinit var binding: B
-    lateinit var mAuth: FirebaseAuth
+    lateinit var firebaseAuth: FirebaseAuth
     lateinit var sharedPreferences: SharedPreferences
     val gson: Gson = Gson()
 
@@ -23,7 +26,7 @@ abstract class BaseActivity<B : ViewBinding>(val bindingFactory: (LayoutInflater
         binding = bindingFactory(layoutInflater)
         setContentView(binding.root)
 
-        mAuth = FirebaseAuth.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = getSharedPreferences("PREF_FAVORITES", MODE_PRIVATE)
     }

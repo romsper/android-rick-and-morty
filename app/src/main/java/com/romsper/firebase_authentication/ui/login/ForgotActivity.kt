@@ -11,12 +11,12 @@ class ForgotActivity : BaseActivity<ActivityForgotBinding>(ActivityForgotBinding
     override fun onStart() {
         super.onStart()
 
-        binding.btnForgotPassword.setOnClickListener {
+        binding.linkForgotPassword.setOnClickListener {
             val username = if (binding.username.text?.toString()
                     .isNullOrBlank()
             ) " " else binding.username.text.toString()
 
-            mAuth.sendPasswordResetEmail(username)
+            firebaseAuth.sendPasswordResetEmail(username)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         startActivity(Intent(this, LoginActivity::class.java).putExtra("emailSent", true))

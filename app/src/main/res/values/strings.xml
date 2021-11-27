@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Rick and Morty - personal WIKI</string>
+    <string name="app_name">Rick and Morty</string>
+    <string name="app_client_id">75562056711-mnsoc7661f7t9e4tovrlsfk8m8h6aoth.apps.googleusercontent.com</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -12,7 +13,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="forgot_password">Forgot password</string>
-    <string name="title_contacts">Rick and Morty</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="title">Rick and Morty</string>
+    <string name="title_contacts">Contacts</string>
     <string name="title_favorites">Favorites</string>
 </resources>

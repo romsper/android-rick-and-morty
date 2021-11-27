@@ -12,25 +12,28 @@ import com.bumptech.glide.request.RequestOptions
 import com.romsper.firebase_authentication.databinding.RecyclerContactsItemBinding
 import com.romsper.firebase_authentication.model.Result
 
-class ContactsPagingAdapter(private val contactsItemClickListener: ContactsItemClickListener) : PagingDataAdapter<Result, ContactsPagingAdapter.ViewHolder>(ContactsDiffCallBack()) {
+class CharactersPagingAdapter(private val charactersItemClickListener: CharactersItemClickListener) :
+    PagingDataAdapter<Result, CharactersPagingAdapter.ViewHolder>(ContactsDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsPagingAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CharactersPagingAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecyclerContactsItemBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ContactsPagingAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CharactersPagingAdapter.ViewHolder, position: Int) {
+        val data = getItem(position)!!
         holder.itemView.setOnClickListener {
-            val data = getItem(position)!!
-            holder.itemView.setOnClickListener {
-                contactsItemClickListener.onContactsItemClickListener(data)
-            }
+            charactersItemClickListener.onCharactersItemClickListener(data)
         }
         return holder.bind(getItem(position)!!)
     }
 
-    inner class ViewHolder(private val binding: RecyclerContactsItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: RecyclerContactsItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Result) {
             binding.contactName.text = item.name
             Glide.with(binding.contactAvatar.context)

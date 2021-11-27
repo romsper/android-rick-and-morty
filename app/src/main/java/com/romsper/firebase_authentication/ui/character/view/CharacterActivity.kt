@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.contact.view
+package com.romsper.firebase_authentication.ui.character.view
 
 import android.content.Intent
 import android.util.Log
@@ -9,27 +9,28 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.romsper.firebase_authentication.databinding.ActivityContactBinding
-import com.romsper.firebase_authentication.ui.contact.viewModel.ContactViewModel
+import com.romsper.firebase_authentication.databinding.ActivityCharacterBinding
+import com.romsper.firebase_authentication.ui.character.viewModel.CharacterViewModel
 import com.romsper.firebase_authentication.ui.main.view.MainActivity
 import com.romsper.firebase_authentication.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-class ContactActivity : BaseActivity<ActivityContactBinding>(ActivityContactBinding::inflate) {
-    private val viewModel: ContactViewModel by viewModels()
+class CharacterActivity : BaseActivity<ActivityCharacterBinding>(ActivityCharacterBinding::inflate) {
+    private val viewModel: CharacterViewModel by viewModels()
     lateinit var favoriteItem: String
+    lateinit var existingIds: String
 
     override fun onStart() {
         super.onStart()
-        initObservers()
 
         binding.backButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
+        existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
+
         binding.btnFavorites.setOnClickListener {
-            val existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
             if (existingIds.contains(favoriteItem)) Toast.makeText(
                 this,
                 "Already in Favorites",
@@ -45,12 +46,18 @@ class ContactActivity : BaseActivity<ActivityContactBinding>(ActivityContactBind
                 "Done",
                 Toast.LENGTH_SHORT
             ).show()
+            binding.btnFavorites.isEnabled = false
         }
+
+        initObservers()
     }
 
     private fun initObservers() {
-        val contactId = intent.extras?.getInt("contactId")
-        viewModel.getCharacterById(id = contactId!!).observe(this, Observer {
+        val characterId = intent.extras?.getInt("characterId")
+        if (existingIds.contains(characterId.toString())) {
+            binding.btnFavorites.isEnabled = false
+        }
+        viewModel.getCharacterById(id = characterId!!).observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -68,10 +75,10 @@ class ContactActivity : BaseActivity<ActivityContactBinding>(ActivityContactBind
                             .load(resource.data?.image)
                             .transform(BlurTransformation(5, 10))
                             .into(binding.blurAvatar)
-                        Glide.with(binding.contactAvatar.context)
+                        Glide.with(binding.characterAvatar.context)
                             .load(resource.data?.image)
                             .apply(RequestOptions().transform(RoundedCorners(80)))
-                            .into(binding.contactAvatar)
+                            .into(binding.characterAvatar)
 
                         binding.characterName.text = resource.data?.name ?: "<UNKNOWN>"
                         binding.characterStatus.text = resource.data?.status ?: "<UNKNOWN>"
