@@ -81,13 +81,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password" />
 
-    <ImageButton
+    <Button
         android:id="@+id/btnGoogle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:background="@drawable/input_google_signin"
-        android:src="@drawable/ic_google__g__logo"
+        android:drawableStart="@drawable/ic_google__g__logo"
+        android:text="Sign in with Google"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin" />
 
     <Button
@@ -97,6 +99,7 @@
         android:background="@drawable/active_btn"
         android:enabled="true"
         android:text="@string/action_sign_in"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

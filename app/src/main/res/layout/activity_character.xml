@@ -141,7 +141,22 @@
         android:background="@drawable/active_btn"
         android:layout_margin="16dp"
         android:enabled="true"
-        android:text="Add to favorites"
+        android:text="Add favorite"
+        android:textColor="@color/text"
+        app:layout_constraintBottom_toBottomOf="@+id/contentView"
+        app:layout_constraintEnd_toEndOf="@+id/contentView"
+        app:layout_constraintStart_toStartOf="@+id/contentView" />
+
+    <Button
+        android:id="@+id/btnRemoveFavorites"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/remove_btn"
+        android:layout_margin="16dp"
+        android:enabled="true"
+        android:visibility="gone"
+        android:text="Remove favorite"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="@+id/contentView"
         app:layout_constraintEnd_toEndOf="@+id/contentView"
         app:layout_constraintStart_toStartOf="@+id/contentView" />

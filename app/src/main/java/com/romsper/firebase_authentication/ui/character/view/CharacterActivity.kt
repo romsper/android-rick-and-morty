@@ -1,5 +1,6 @@
 package com.romsper.firebase_authentication.ui.character.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -15,11 +16,14 @@ import com.romsper.firebase_authentication.ui.main.view.MainActivity
 import com.romsper.firebase_authentication.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-class CharacterActivity : BaseActivity<ActivityCharacterBinding>(ActivityCharacterBinding::inflate) {
+class CharacterActivity :
+    BaseActivity<ActivityCharacterBinding>(ActivityCharacterBinding::inflate) {
     private val viewModel: CharacterViewModel by viewModels()
-    lateinit var favoriteItem: String
+    lateinit var favoriteItemString: String
+    lateinit var favoriteItem: FavoriteItem
     lateinit var existingIds: String
 
+    @SuppressLint("CommitPrefEdits")
     override fun onStart() {
         super.onStart()
 
@@ -31,22 +35,42 @@ class CharacterActivity : BaseActivity<ActivityCharacterBinding>(ActivityCharact
         existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
 
         binding.btnFavorites.setOnClickListener {
-            if (existingIds.contains(favoriteItem)) Toast.makeText(
+            if (existingIds.contains(favoriteItemString)) Toast.makeText(
                 this,
-                "Already in Favorites",
+                "Already added",
                 Toast.LENGTH_SHORT
             ).show()
             else sharedPreferences.edit().putString(
                 "KEY_FAVORITES",
-                if (existingIds.isBlank()) favoriteItem else existingIds.plus(",")
-                    .plus(favoriteItem)
+                if (existingIds.isBlank()) favoriteItemString else existingIds.plus(",")
+                    .plus(favoriteItemString)
             ).apply()
             Toast.makeText(
                 this,
-                "Done",
+                "${favoriteItem.name} added",
                 Toast.LENGTH_SHORT
             ).show()
-            binding.btnFavorites.isEnabled = false
+            binding.btnFavorites.visibility = View.GONE
+            binding.btnRemoveFavorites.visibility = View.VISIBLE
+        }
+
+        binding.btnRemoveFavorites.setOnClickListener {
+            val favorites = getFavorites().toMutableList()
+            if (favorites.size == 1) {
+                favorites.clear()
+                sharedPreferences.edit().putString(
+                    "KEY_FAVORITES", ""
+                ).apply()
+            } else {
+                favorites.remove(favoriteItem)
+                sharedPreferences.edit().putString(
+                    "KEY_FAVORITES",
+                    gson.toJson(favorites).toString().replace("[", "").replace("]", "")
+                ).apply()
+                binding.btnFavorites.visibility = View.VISIBLE
+                binding.btnRemoveFavorites.visibility = View.GONE
+                Toast.makeText(this, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
+            }
         }
 
         initObservers()
@@ -55,7 +79,8 @@ class CharacterActivity : BaseActivity<ActivityCharacterBinding>(ActivityCharact
     private fun initObservers() {
         val characterId = intent.extras?.getInt("characterId")
         if (existingIds.contains(characterId.toString())) {
-            binding.btnFavorites.isEnabled = false
+            binding.btnFavorites.visibility = View.GONE
+            binding.btnRemoveFavorites.visibility = View.VISIBLE
         }
         viewModel.getCharacterById(id = characterId!!).observe(this, Observer {
             it?.let { resource ->
@@ -63,13 +88,12 @@ class CharacterActivity : BaseActivity<ActivityCharacterBinding>(ActivityCharact
                     Status.SUCCESS -> {
                         binding.loading.visibility = View.GONE
 
-                        favoriteItem = gson.toJson(
-                            FavoriteItem(
-                                id = resource.data?.id,
-                                avatarUrl = resource.data?.image,
-                                name = resource.data?.name
-                            )
-                        ).toString()
+                        favoriteItem = FavoriteItem(
+                            id = resource.data?.id,
+                            avatarUrl = resource.data?.image,
+                            name = resource.data?.name
+                        )
+                        favoriteItemString = gson.toJson(favoriteItem).toString()
 
                         Glide.with(binding.blurAvatar.context)
                             .load(resource.data?.image)

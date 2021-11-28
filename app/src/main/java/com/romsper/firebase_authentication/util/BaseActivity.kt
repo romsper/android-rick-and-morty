@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -34,7 +31,7 @@ abstract class BaseActivity<B : ViewBinding>(val bindingFactory: (LayoutInflater
     fun getFavorites(): List<FavoriteItem> {
         val jsonFavorites = "[${sharedPreferences.getString("KEY_FAVORITES", "")}]"
         val jsonFavoritesArray = JsonParser.parseString(jsonFavorites).asJsonArray
-        val listType: Type = object : TypeToken<List<FavoriteItem?>?>() {}.type
+        val listType: Type = object : TypeToken<ArrayList<FavoriteItem?>?>() {}.type
         return gson.fromJson(jsonFavoritesArray, listType)
     }
 }
