@@ -73,6 +73,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
         binding.linkForgotPassword!!.setOnClickListener {
             startActivity(Intent(this, ForgotActivity::class.java))
+            finish()
+        }
+
+        binding.linkSignUp!!.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+            finish()
         }
     }
 
