@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.romsper.firebase_authentication.databinding.ActivityMainBinding
 import com.romsper.firebase_authentication.model.Result
 import com.romsper.firebase_authentication.ui.character.view.CharacterActivity
