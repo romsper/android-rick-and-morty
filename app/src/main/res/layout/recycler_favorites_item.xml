@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -13,16 +14,31 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal|center_vertical"
         android:src="@drawable/img_favorites"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/favoritesName"
-        android:layout_width="45dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="UNKNOWN"
         android:textColor="@color/black"
         android:textSize="11sp"
-        android:singleLine="true"
-        android:ellipsize="end"/>
-</LinearLayout>
+        app:layout_constraintStart_toStartOf="@+id/favoritesAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/favoritesAvatar" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveFavorites"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:background="@drawable/btn_logout"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_cancel_24"
+        app:layout_constraintEnd_toEndOf="@+id/favoritesAvatar"
+        app:layout_constraintTop_toTopOf="@+id/favoritesAvatar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

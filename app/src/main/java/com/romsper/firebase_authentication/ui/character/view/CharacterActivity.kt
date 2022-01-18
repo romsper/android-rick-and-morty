@@ -19,9 +19,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 class CharacterActivity :
     BaseActivity<ActivityCharacterBinding>(ActivityCharacterBinding::inflate) {
     private val viewModel: CharacterViewModel by viewModels()
-    lateinit var favoriteItemString: String
-    lateinit var favoriteItem: FavoriteItem
-    lateinit var existingIds: String
+    private lateinit var favoriteItemString: String
 
     @SuppressLint("CommitPrefEdits")
     override fun onStart() {
@@ -55,22 +53,10 @@ class CharacterActivity :
         }
 
         binding.btnRemoveFavorites.setOnClickListener {
-            val favorites = getFavorites().toMutableList()
-            if (favorites.size == 1) {
-                favorites.clear()
-                sharedPreferences.edit().putString(
-                    "KEY_FAVORITES", ""
-                ).apply()
-            } else {
-                favorites.remove(favoriteItem)
-                sharedPreferences.edit().putString(
-                    "KEY_FAVORITES",
-                    gson.toJson(favorites).toString().replace("[", "").replace("]", "")
-                ).apply()
-                binding.btnFavorites.visibility = View.VISIBLE
-                binding.btnRemoveFavorites.visibility = View.GONE
-                Toast.makeText(this, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
-            }
+            removeFavoriteItem(item = favoriteItem)
+            binding.btnFavorites.visibility = View.VISIBLE
+            binding.btnRemoveFavorites.visibility = View.GONE
+            Toast.makeText(this, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
         }
 
         initObservers()

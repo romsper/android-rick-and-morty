@@ -2,6 +2,7 @@ package com.romsper.firebase_authentication.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -36,6 +37,9 @@ class FavoritesAdapter(
     inner class ViewHolder(private val binding: RecyclerFavoritesItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FavoriteItem) {
+            binding.btnRemoveFavorites.setOnClickListener {
+                favoritesItemClickListener.onRemoveFavoritesItemClickListener(item)
+            }
             Glide.with(binding.favoritesAvatar.context)
                 .load(item.avatarUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())

@@ -15,7 +15,7 @@
     </style>
 
     <style name="SearchAutoCompleteTextView" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="android:textColor">@color/grey</item>
-<!--        <item name="android:textColorHint">@color/black</item>-->
+        <item name="android:textColorPrimary">@color/grey</item>
+        <item name="android:textColorSecondary">@color/grey</item>
     </style>
 </resources>

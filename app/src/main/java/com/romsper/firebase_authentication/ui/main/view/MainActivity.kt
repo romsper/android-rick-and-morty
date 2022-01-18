@@ -3,6 +3,7 @@ package com.romsper.firebase_authentication.ui.main.view
 import android.content.Intent
 import android.view.View
 import android.widget.SearchView.OnQueryTextListener
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.romsper.firebase_authentication.databinding.ActivityMainBinding
 import com.romsper.firebase_authentication.model.Result
 import com.romsper.firebase_authentication.ui.character.view.CharacterActivity
+import com.romsper.firebase_authentication.ui.login.LoginActivity
 import com.romsper.firebase_authentication.ui.main.adapter.CharactersItemClickListener
 import com.romsper.firebase_authentication.ui.main.adapter.CharactersPagingAdapter
 import com.romsper.firebase_authentication.ui.main.adapter.FavoritesAdapter
@@ -37,6 +39,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initFavoritesAdapter()
         collectFavorites(getFavorites())
         initSearch()
+
+        binding.logout.setOnClickListener {
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 
     private fun initContactsPagingAdapter() {
@@ -65,7 +73,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun collectContacts(search: Boolean = false) {
-
         when (search) {
             false -> {
                 lifecycleScope.launch {
@@ -99,10 +106,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCharactersItemClickListener(item: Result) {
         startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
+        finish()
     }
 
     override fun onFavoritesItemClickListener(item: FavoriteItem) {
         startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
+        finish()
+    }
+
+    override fun onRemoveFavoritesItemClickListener(item: FavoriteItem) {
+        existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
+        removeFavoriteItem(item = item)
+        initFavoritesAdapter()
+        collectFavorites(getFavorites())
+        Toast.makeText(this, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
     }
 
     private fun initSearch() {
