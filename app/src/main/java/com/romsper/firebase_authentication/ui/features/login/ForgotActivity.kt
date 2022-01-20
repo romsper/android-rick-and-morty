@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.login
+package com.romsper.firebase_authentication.ui.features.login
 
 import android.annotation.SuppressLint
 import android.content.Intent

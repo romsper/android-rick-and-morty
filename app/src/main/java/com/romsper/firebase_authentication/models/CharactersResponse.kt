@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.model
+package com.romsper.firebase_authentication.models
 
 
 data class CharactersResponse(

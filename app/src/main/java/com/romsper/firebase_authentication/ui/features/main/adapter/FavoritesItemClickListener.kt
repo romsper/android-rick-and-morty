@@ -1,6 +1,5 @@
-package com.romsper.firebase_authentication.ui.main.adapter
+package com.romsper.firebase_authentication.ui.features.main.adapter
 
-import android.view.View
 import com.romsper.firebase_authentication.util.FavoriteItem
 
 interface FavoritesItemClickListener {

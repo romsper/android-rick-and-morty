@@ -1,8 +1,8 @@
-package com.romsper.firebase_authentication.ui.base
+package com.romsper.firebase_authentication.ui.adapters.sources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.romsper.firebase_authentication.model.Result
+import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.repository.AppRepository
 
 class ContactsPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {

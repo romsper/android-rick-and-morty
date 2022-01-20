@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.character.view
+package com.romsper.firebase_authentication.ui.features.character.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.romsper.firebase_authentication.databinding.ActivityCharacterBinding
-import com.romsper.firebase_authentication.ui.character.viewModel.CharacterViewModel
-import com.romsper.firebase_authentication.ui.main.view.MainActivity
+import com.romsper.firebase_authentication.ui.features.character.viewModel.CharacterViewModel
+import com.romsper.firebase_authentication.ui.features.main.view.MainActivity
 import com.romsper.firebase_authentication.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 

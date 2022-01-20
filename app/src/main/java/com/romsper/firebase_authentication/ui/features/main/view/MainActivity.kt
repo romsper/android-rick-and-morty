@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.main.view
+package com.romsper.firebase_authentication.ui.features.main.view
 
 import android.content.Intent
 import android.view.View
@@ -8,16 +8,15 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.romsper.firebase_authentication.databinding.ActivityMainBinding
-import com.romsper.firebase_authentication.model.Result
-import com.romsper.firebase_authentication.ui.character.view.CharacterActivity
-import com.romsper.firebase_authentication.ui.login.LoginActivity
-import com.romsper.firebase_authentication.ui.main.adapter.CharactersItemClickListener
-import com.romsper.firebase_authentication.ui.main.adapter.CharactersPagingAdapter
-import com.romsper.firebase_authentication.ui.main.adapter.FavoritesAdapter
-import com.romsper.firebase_authentication.ui.main.adapter.FavoritesItemClickListener
-import com.romsper.firebase_authentication.ui.main.viewmodel.MainViewModel
+import com.romsper.firebase_authentication.models.Result
+import com.romsper.firebase_authentication.ui.features.character.view.CharacterActivity
+import com.romsper.firebase_authentication.ui.features.login.LoginActivity
+import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersItemClickListener
+import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersPagingAdapter
+import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesAdapter
+import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesItemClickListener
+import com.romsper.firebase_authentication.ui.features.main.viewmodel.MainViewModel
 import com.romsper.firebase_authentication.util.BaseActivity
 import com.romsper.firebase_authentication.util.FavoriteItem
 import kotlinx.coroutines.flow.collectLatest

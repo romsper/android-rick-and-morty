@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.character.viewModel
+package com.romsper.firebase_authentication.ui.features.character.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData

@@ -1,7 +1,7 @@
 package com.romsper.firebase_authentication.network
 
-import com.romsper.firebase_authentication.model.CharactersResponse
-import com.romsper.firebase_authentication.model.SingleCharacterResponse
+import com.romsper.firebase_authentication.models.CharactersResponse
+import com.romsper.firebase_authentication.models.SingleCharacterResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

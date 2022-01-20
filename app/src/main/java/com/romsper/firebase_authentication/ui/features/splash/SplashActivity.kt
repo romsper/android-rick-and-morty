@@ -1,14 +1,13 @@
-package com.romsper.firebase_authentication.ui
+package com.romsper.firebase_authentication.ui.features.splash
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.romsper.firebase_authentication.R
-import com.romsper.firebase_authentication.ui.main.view.MainActivity
 
 import android.content.Intent
 import android.os.Handler
-import com.romsper.firebase_authentication.ui.login.LoginActivity
+import com.romsper.firebase_authentication.ui.features.login.LoginActivity
 
 
 @SuppressLint("CustomSplashScreen")

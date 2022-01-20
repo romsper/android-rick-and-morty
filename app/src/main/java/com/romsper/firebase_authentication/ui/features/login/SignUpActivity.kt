@@ -1,15 +1,11 @@
-package com.romsper.firebase_authentication.ui.login
+package com.romsper.firebase_authentication.ui.features.login
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.romsper.firebase_authentication.R
-import com.romsper.firebase_authentication.databinding.ActivityForgotBinding
 import com.romsper.firebase_authentication.databinding.ActivitySignUpBinding
-import com.romsper.firebase_authentication.ui.main.view.MainActivity
+import com.romsper.firebase_authentication.ui.features.main.view.MainActivity
 import com.romsper.firebase_authentication.util.BaseActivity
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {

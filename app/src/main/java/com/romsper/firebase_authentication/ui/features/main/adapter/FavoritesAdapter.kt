@@ -1,14 +1,12 @@
-package com.romsper.firebase_authentication.ui.main.adapter
+package com.romsper.firebase_authentication.ui.features.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.romsper.firebase_authentication.R
 import com.romsper.firebase_authentication.databinding.RecyclerFavoritesItemBinding
 import com.romsper.firebase_authentication.util.FavoriteItem
 

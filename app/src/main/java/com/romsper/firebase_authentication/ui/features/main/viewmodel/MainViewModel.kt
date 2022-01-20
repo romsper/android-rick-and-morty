@@ -1,12 +1,12 @@
-package com.romsper.firebase_authentication.ui.main.viewmodel
+package com.romsper.firebase_authentication.ui.features.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.romsper.firebase_authentication.repository.AppRepository
-import com.romsper.firebase_authentication.ui.base.ContactsPagingSource
-import com.romsper.firebase_authentication.ui.base.SearchCharactersPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.ContactsPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharactersPagingSource
 import com.romsper.firebase_authentication.util.Resource
 import kotlinx.coroutines.Dispatchers
 
