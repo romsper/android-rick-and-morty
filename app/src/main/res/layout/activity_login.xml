@@ -128,10 +128,21 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
+        android:id="@+id/linkSkipAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't want to create an account?"
+        android:textColor="@color/main_color"
+        app:layout_constraintBottom_toTopOf="@+id/linkSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linkForgotPassword" />
+
+    <TextView
         android:id="@+id/linkSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Join us"
+        android:text="@string/no_account"
         android:textColor="@color/main_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

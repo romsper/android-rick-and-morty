@@ -76,6 +76,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             finish()
         }
 
+        binding.linkSkipAuth!!.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
         binding.linkSignUp!!.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
             finish()
