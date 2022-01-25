@@ -27,7 +27,7 @@ class FavoritesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = items[position]
         holder.itemView.setOnClickListener {
-            favoritesItemClickListener.onFavoritesItemClickListener(data)
+            favoritesItemClickListener.onFavoriteListItemClickListener(data)
         }
         return holder.bind(items[position])
     }

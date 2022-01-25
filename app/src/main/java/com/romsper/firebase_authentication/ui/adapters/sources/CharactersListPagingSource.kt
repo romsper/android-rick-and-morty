@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.repository.AppRepository
 
-class ContactsPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {
+class CharactersListPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         return try {

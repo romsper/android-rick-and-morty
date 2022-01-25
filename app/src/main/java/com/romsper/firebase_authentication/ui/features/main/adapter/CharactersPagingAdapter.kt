@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.romsper.firebase_authentication.databinding.RecyclerContactsItemBinding
+import com.romsper.firebase_authentication.databinding.RecyclerCharacterItemBinding
 import com.romsper.firebase_authentication.models.Result
 
 class CharactersPagingAdapter(private val charactersItemClickListener: CharactersItemClickListener) :
@@ -20,19 +20,19 @@ class CharactersPagingAdapter(private val charactersItemClickListener: Character
         viewType: Int
     ): CharactersPagingAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = RecyclerContactsItemBinding.inflate(inflater)
+        val binding = RecyclerCharacterItemBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CharactersPagingAdapter.ViewHolder, position: Int) {
         val data = getItem(position)!!
         holder.itemView.setOnClickListener {
-            charactersItemClickListener.onCharactersItemClickListener(data)
+            charactersItemClickListener.onCharacterListItemClickListener(data)
         }
         return holder.bind(getItem(position)!!)
     }
 
-    inner class ViewHolder(private val binding: RecyclerContactsItemBinding) :
+    inner class ViewHolder(private val binding: RecyclerCharacterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Result) {
             binding.contactName.text = item.name

@@ -1,53 +1,67 @@
-package com.romsper.firebase_authentication.ui.features.main.view
+package com.romsper.firebase_authentication
 
-import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.SearchView.OnQueryTextListener
+import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.romsper.firebase_authentication.databinding.ActivityMainBinding
 import com.romsper.firebase_authentication.models.Result
-import com.romsper.firebase_authentication.ui.features.character.view.CharacterActivity
-import com.romsper.firebase_authentication.ui.features.login.LoginActivity
-import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersItemClickListener
 import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersPagingAdapter
 import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesAdapter
-import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesItemClickListener
-import com.romsper.firebase_authentication.ui.features.main.viewmodel.MainViewModel
-import com.romsper.firebase_authentication.util.BaseActivity
 import com.romsper.firebase_authentication.util.FavoriteItem
+import com.romsper.firebase_authentication.databinding.FragmentCharacterListBinding
+import com.romsper.firebase_authentication.ui.base.fragment.BaseFragment
+import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersItemClickListener
+import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesItemClickListener
+import com.romsper.firebase_authentication.util.findNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
+class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharactersItemClickListener, FavoritesItemClickListener {
 
-    private val viewModel: MainViewModel by viewModels()
+    private var _binding: FragmentCharacterListBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: CharactersListViewModel by viewModels()
     private lateinit var charactersPagingAdapter: CharactersPagingAdapter
     private lateinit var favoritesAdapter: FavoritesAdapter
     var characterName: String = ""
 
-    override fun onStart() {
-        super.onStart()
-        initContactsPagingAdapter()
-        collectContacts()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_character_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCharacterListBinding.bind(view)
+
+        initCharacterListPagingAdapter()
+        collectCharacters()
         initFavoritesAdapter()
         collectFavorites(getFavorites())
         initSearch()
 
         binding.logout.setOnClickListener {
             firebaseAuth.signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
         }
     }
 
-    private fun initContactsPagingAdapter() {
-        binding.recyclerContacts.layoutManager = LinearLayoutManager(this)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initCharacterListPagingAdapter() {
+        binding.recyclerContacts.layoutManager = LinearLayoutManager(activity)
         charactersPagingAdapter = CharactersPagingAdapter(this)
         binding.recyclerContacts.addItemDecoration(
             DividerItemDecoration(
@@ -60,7 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun initFavoritesAdapter() {
         binding.recyclerFavorites.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         favoritesAdapter = FavoritesAdapter(arrayListOf(), this)
         binding.recyclerContacts.addItemDecoration(
             DividerItemDecoration(
@@ -71,7 +85,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.recyclerFavorites.adapter = favoritesAdapter
     }
 
-    private fun collectContacts(search: Boolean = false) {
+    private fun collectCharacters(search: Boolean = false) {
         when (search) {
             false -> {
                 lifecycleScope.launch {
@@ -88,6 +102,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         }
                 }
             }
+
         }
     }
 
@@ -103,13 +118,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun onCharacterListItemClickListener(item: Result) {
-        startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
-        finish()
+        findNavController().navigate(
+            CharacterListFragmentDirections.actionCharacterListFragmentToCharacterDetailFragment(
+                characterId = item.id
+            )
+        )
     }
 
     override fun onFavoriteListItemClickListener(item: FavoriteItem) {
-        startActivity(Intent(this, CharacterActivity::class.java).putExtra("characterId", item.id))
-        finish()
+        findNavController().navigate(
+            CharacterListFragmentDirections.actionCharacterListFragmentToCharacterDetailFragment(
+                characterId = item.id!!
+            )
+        )
     }
 
     override fun onRemoveFavoritesItemClickListener(item: FavoriteItem) {
@@ -117,15 +138,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         removeFavoriteItem(item = item)
         initFavoritesAdapter()
         collectFavorites(getFavorites())
-        Toast.makeText(this, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
     }
 
     private fun initSearch() {
-        binding.search.setOnQueryTextListener(object : OnQueryTextListener {
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
                     characterName = query
-                    collectContacts(search = true)
+                    collectCharacters(search = true)
                 }
                 return true
             }
@@ -133,10 +154,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrBlank()) {
                     characterName = newText
-                    collectContacts(search = true)
+                    collectCharacters(search = true)
                 } else {
                     characterName = ""
-                    collectContacts(search = false)
+                    collectCharacters(search = false)
                 }
                 return true
             }

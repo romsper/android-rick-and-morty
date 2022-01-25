@@ -1,16 +1,13 @@
-package com.romsper.firebase_authentication.ui.features.main.viewmodel
+package com.romsper.firebase_authentication
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.romsper.firebase_authentication.repository.AppRepository
 import com.romsper.firebase_authentication.ui.adapters.sources.CharactersListPagingSource
 import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharactersPagingSource
-import com.romsper.firebase_authentication.util.Resource
-import kotlinx.coroutines.Dispatchers
 
-class MainViewModel: ViewModel() {
+class CharactersListViewModel: ViewModel() {
     private val appRepository = AppRepository()
 
     fun getCharactersPaging() = Pager(
@@ -32,13 +29,4 @@ class MainViewModel: ViewModel() {
             SearchCharactersPagingSource(appRepository = appRepository, characterName = characterName)
         }
     ).flow
-
-    fun searchCharacters(characterName: String) = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            emit(Resource.success(data = AppRepository().searchCharacters(characterName = characterName, page = 1)))
-        } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
-        }
-    }
 }
