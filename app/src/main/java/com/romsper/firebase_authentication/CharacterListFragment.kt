@@ -5,22 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.romsper.firebase_authentication.models.Result
-import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersPagingAdapter
-import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesAdapter
-import com.romsper.firebase_authentication.util.FavoriteItem
 import com.romsper.firebase_authentication.databinding.FragmentCharacterListBinding
+import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.ui.base.fragment.BaseFragment
 import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersItemClickListener
+import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersPagingAdapter
+import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesAdapter
 import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesItemClickListener
+import com.romsper.firebase_authentication.util.FavoriteItem
+import com.romsper.firebase_authentication.util.appToast
 import com.romsper.firebase_authentication.util.findNavController
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.romsper.firebase_authentication.util.gone
 
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharactersItemClickListener, FavoritesItemClickListener {
@@ -45,7 +43,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         _binding = FragmentCharacterListBinding.bind(view)
 
         initCharacterListPagingAdapter()
-        collectCharacters()
+        fetchCharacterList()
         initFavoritesAdapter()
         collectFavorites(getFavorites())
         initSearch()
@@ -61,7 +59,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     }
 
     private fun initCharacterListPagingAdapter() {
-        binding.recyclerContacts.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerContacts.layoutManager = LinearLayoutManager(requireActivity())
         charactersPagingAdapter = CharactersPagingAdapter(this)
         binding.recyclerContacts.addItemDecoration(
             DividerItemDecoration(
@@ -74,7 +72,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
 
     private fun initFavoritesAdapter() {
         binding.recyclerFavorites.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         favoritesAdapter = FavoritesAdapter(arrayListOf(), this)
         binding.recyclerContacts.addItemDecoration(
             DividerItemDecoration(
@@ -85,37 +83,31 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         binding.recyclerFavorites.adapter = favoritesAdapter
     }
 
-    private fun collectCharacters(search: Boolean = false) {
+    private fun fetchCharacterList(search: Boolean = false) {
         when (search) {
             false -> {
-                lifecycleScope.launch {
-                    viewModel.getCharactersPaging().collectLatest { characters ->
-                        charactersPagingAdapter.submitData(characters)
-                    }
+                viewModel.fetchCharacterList().observe(viewLifecycleOwner) { characterList ->
+                    charactersPagingAdapter.submitData(lifecycle, characterList)
                 }
             }
             true -> {
-                lifecycleScope.launch {
-                    viewModel.searchCharactersPaging(characterName = characterName)
-                        .collectLatest { characters ->
-                            charactersPagingAdapter.submitData(characters)
-                        }
-                }
+                viewModel.fetchSearchCharacterList(characterName = characterName)
+                    .observe(viewLifecycleOwner) { searchCharacterList ->
+                        charactersPagingAdapter.submitData(lifecycle, searchCharacterList)
+                    }
             }
-
         }
     }
 
     private fun collectFavorites(favorites: List<FavoriteItem>) {
         if (favorites.isNullOrEmpty()) {
-            binding.titleFavorites.visibility = View.GONE
-            binding.recyclerFavorites.visibility = View.GONE
+            binding.titleFavorites.gone()
+            binding.recyclerFavorites.gone()
         } else {
-            favoritesAdapter.apply {
-                addFavorites(favorites)
-            }
+            favoritesAdapter.addFavorites(favorites)
         }
     }
+
 
     override fun onCharacterListItemClickListener(item: Result) {
         findNavController().navigate(
@@ -138,7 +130,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         removeFavoriteItem(item = item)
         initFavoritesAdapter()
         collectFavorites(getFavorites())
-        Toast.makeText(activity, "${favoriteItem.name} removed", Toast.LENGTH_SHORT).show()
+        appToast("${favoriteItem.name} removed", true)
     }
 
     private fun initSearch() {
@@ -146,7 +138,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
                     characterName = query
-                    collectCharacters(search = true)
+                    fetchCharacterList(search = true)
                 }
                 return true
             }
@@ -154,13 +146,33 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrBlank()) {
                     characterName = newText
-                    collectCharacters(search = true)
+                    fetchCharacterList(search = true)
                 } else {
                     characterName = ""
-                    collectCharacters(search = false)
+                    fetchCharacterList(search = false)
                 }
                 return true
             }
         })
     }
+
+//    private fun fetchCharacterList(search: Boolean = false) {
+//        when (search) {
+//            false -> {
+//                lifecycleScope.launch {
+//                    viewModel.fetchCharacterList().collectLatest { characters ->
+//                        charactersPagingAdapter.submitData(characters)
+//                    }
+//                }
+//            }
+//            true -> {
+//                lifecycleScope.launch {
+//                    viewModel.fetchSearchCharacterList(characterName = characterName)
+//                        .collectLatest { characters ->
+//                            charactersPagingAdapter.submitData(characters)
+//                        }
+//                }
+//            }
+//        }
+//    }
 }

@@ -5,8 +5,8 @@ import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.romsper.firebase_authentication.repository.AppRepository
-import com.romsper.firebase_authentication.ui.adapters.sources.CharactersListPagingSource
-import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharactersPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.CharacterListPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharacterListPagingSource
 import com.romsper.firebase_authentication.util.Resource
 import kotlinx.coroutines.Dispatchers
 
@@ -19,7 +19,7 @@ class MainViewModel: ViewModel() {
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            CharactersListPagingSource(appRepository = appRepository)
+            CharacterListPagingSource(appRepository = appRepository)
         }
     ).flow
 
@@ -29,7 +29,7 @@ class MainViewModel: ViewModel() {
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SearchCharactersPagingSource(appRepository = appRepository, characterName = characterName)
+            SearchCharacterListPagingSource(appRepository = appRepository, characterName = characterName)
         }
     ).flow
 

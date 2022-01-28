@@ -1,32 +1,57 @@
 package com.romsper.firebase_authentication
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
+import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.repository.AppRepository
-import com.romsper.firebase_authentication.ui.adapters.sources.CharactersListPagingSource
-import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharactersPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.CharacterListPagingSource
+import com.romsper.firebase_authentication.ui.adapters.sources.SearchCharacterListPagingSource
 
-class CharactersListViewModel: ViewModel() {
+class CharactersListViewModel : ViewModel() {
     private val appRepository = AppRepository()
 
-    fun getCharactersPaging() = Pager(
-        config = PagingConfig(
-            pageSize = 10,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = {
-            CharactersListPagingSource(appRepository = appRepository)
-        }
-    ).flow
+    fun fetchCharacterList(): LiveData<PagingData<Result>> = Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                CharacterListPagingSource(appRepository = appRepository)
+            }
+        ).liveData.cachedIn(viewModelScope)
 
-    fun searchCharactersPaging(characterName: String) = Pager(
+    fun fetchSearchCharacterList(characterName: String): LiveData<PagingData<Result>> = Pager(
         config = PagingConfig(
             pageSize = 10,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SearchCharactersPagingSource(appRepository = appRepository, characterName = characterName)
+            SearchCharacterListPagingSource(
+                appRepository = appRepository,
+                characterName = characterName
+            )
         }
-    ).flow
+    ).liveData.cachedIn(viewModelScope)
+
+//    fun fetchCharacterList() = Pager(
+//        config = PagingConfig(
+//            pageSize = 10,
+//            enablePlaceholders = false
+//        ),
+//        pagingSourceFactory = {
+//            CharacterListPagingSource(appRepository = appRepository)
+//        }
+//    ).flow.cachedIn(viewModelScope)
+//
+//    fun fetchSearchCharacterList(characterName: String) = Pager(
+//        config = PagingConfig(
+//            pageSize = 10,
+//            enablePlaceholders = false
+//        ),
+//        pagingSourceFactory = {
+//            SearchCharacterListPagingSource(appRepository = appRepository, characterName = characterName)
+//        }
+//    ).flow.cachedIn(viewModelScope)
 }

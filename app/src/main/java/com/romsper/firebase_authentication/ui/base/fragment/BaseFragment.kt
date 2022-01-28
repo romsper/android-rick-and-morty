@@ -23,13 +23,12 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes) {
     lateinit var favoriteItem: FavoriteItem
     lateinit var existingIds: String
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         firebaseAuth = FirebaseAuth.getInstance()
-        sharedPreferences = activity!!.getSharedPreferences("PREF_FAVORITES", AppCompatActivity.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences("PREF_FAVORITES", AppCompatActivity.MODE_PRIVATE)
 
         FirebaseCrashlytics.getInstance().log(
             this.javaClass.simpleName

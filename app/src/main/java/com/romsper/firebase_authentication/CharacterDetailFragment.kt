@@ -1,12 +1,10 @@
 package com.romsper.firebase_authentication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -36,12 +34,28 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCharacterDetailBinding.bind(view)
 
-        binding.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
         existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
 
+        if (existingIds.contains(safeArgs.characterId.toString())) {
+            binding.btnFavorites.gone()
+            binding.btnRemoveFavorites.visible()
+        }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        fetchCharacterById()
+        addCharacterToFavoriteList()
+        removeCharacterFromFavoriteList()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun addCharacterToFavoriteList() {
         binding.btnFavorites.setOnClickListener {
             if (existingIds.contains(favoriteItemString)) appToast("Already added")
             else sharedPreferences.edit().putString(
@@ -54,66 +68,43 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
             binding.btnFavorites.gone()
             binding.btnRemoveFavorites.visible()
         }
+    }
 
+    private fun removeCharacterFromFavoriteList() {
         binding.btnRemoveFavorites.setOnClickListener {
             removeFavoriteItem(item = favoriteItem)
             binding.btnFavorites.visible()
             binding.btnRemoveFavorites.gone()
             appToast("${favoriteItem.name} removed", true)
         }
-
-        initObservers()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private fun fetchCharacterById() {
+        viewModel.characterById.observe(viewLifecycleOwner) { character ->
+            if (character == null) {
+                binding.loading.visible()
+                appToast("Network error")
+                findNavController().navigateUp()
+            } else {
+                binding.loading.gone()
+                favoriteItem = FavoriteItem(id = character.id, avatarUrl = character.image, name = character.name)
+                favoriteItemString = gson.toJson(favoriteItem).toString()
 
-    private fun initObservers() {
-        val characterId = safeArgs.characterId
+                Glide.with(binding.blurAvatar.context)
+                    .load(character.image)
+                    .transform(BlurTransformation(5, 10))
+                    .into(binding.blurAvatar)
+                Glide.with(binding.characterAvatar.context)
+                    .load(character.image)
+                    .apply(RequestOptions().transform(RoundedCorners(80)))
+                    .into(binding.characterAvatar)
 
-        if (existingIds.contains(characterId.toString())) {
-            binding.btnFavorites.gone()
-            binding.btnRemoveFavorites.visible()
-        }
-        viewModel.getCharacterById(id = characterId).observe(this, Observer {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.loading.gone()
-
-                        favoriteItem = FavoriteItem(
-                            id = resource.data?.id,
-                            avatarUrl = resource.data?.image,
-                            name = resource.data?.name
-                        )
-                        favoriteItemString = gson.toJson(favoriteItem).toString()
-
-                        Glide.with(binding.blurAvatar.context)
-                            .load(resource.data?.image)
-                            .transform(BlurTransformation(5, 10))
-                            .into(binding.blurAvatar)
-                        Glide.with(binding.characterAvatar.context)
-                            .load(resource.data?.image)
-                            .apply(RequestOptions().transform(RoundedCorners(80)))
-                            .into(binding.characterAvatar)
-
-                        binding.characterName.text = resource.data?.name ?: "<UNKNOWN>"
-                        binding.characterStatus.text = resource.data?.status ?: "<UNKNOWN>"
-                        binding.characterGender.text = resource.data?.gender ?: "<UNKNOWN>"
-                        binding.characterSpecies.text = resource.data?.species ?: "<UNKNOWN>"
-                    }
-                    Status.ERROR -> {
-                        binding.loading.gone()
-                        Log.d("[NETWORK]", it.message!!)
-                        appToast("Network error")
-                    }
-                    Status.LOADING -> {
-                        binding.loading.visible()
-                    }
-                }
+                binding.characterName.text = character.name
+                binding.characterStatus.text = character.status
+                binding.characterGender.text = character.gender
+                binding.characterSpecies.text = character.species
             }
-        })
+        }
+        viewModel.fetchCharacterById(characterId = safeArgs.characterId)
     }
 }

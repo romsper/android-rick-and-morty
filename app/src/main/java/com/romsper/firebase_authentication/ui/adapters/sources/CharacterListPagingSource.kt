@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.repository.AppRepository
 
-class CharactersListPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {
+class CharacterListPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         return try {
@@ -29,7 +29,7 @@ class CharactersListPagingSource(private val appRepository: AppRepository) : Pag
     }
 }
 
-class SearchCharactersPagingSource(private val appRepository: AppRepository, private val characterName: String) : PagingSource<Int, Result>() {
+class SearchCharacterListPagingSource(private val appRepository: AppRepository, private val characterName: String) : PagingSource<Int, Result>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         return try {
