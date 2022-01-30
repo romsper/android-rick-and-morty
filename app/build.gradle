@@ -10,7 +10,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.romsper.firebase_authentication"
+        applicationId "com.romsper.android_rick_and_morty"
         minSdk 26
         targetSdk 31
         versionCode 1
