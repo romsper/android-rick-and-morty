@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.features.login
+package com.romsper.firebase_authentication.ui.features.authorization
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 
 import com.romsper.firebase_authentication.util.BaseActivity
-import com.romsper.firebase_authentication.ui.features.main.view.MainActivity
+import com.romsper.firebase_authentication.ui.features.characterList.view.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

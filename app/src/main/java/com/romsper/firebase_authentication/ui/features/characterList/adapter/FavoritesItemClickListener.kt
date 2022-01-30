@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.features.main.adapter
+package com.romsper.firebase_authentication.ui.features.characterList.adapter
 
 import com.romsper.firebase_authentication.util.FavoriteItem
 

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebaseauthentication">
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.login.SignUpActivity"
+            android:name="com.romsper.firebase_authentication.ui.features.authorization.SignUpActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -18,19 +18,19 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.character.view.CharacterActivity"
+            android:name="com.romsper.firebase_authentication.ui.features.characterDetail.view.CharacterActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.login.ForgotActivity"
+            android:name="com.romsper.firebase_authentication.ui.features.authorization.ForgotActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.login.LoginActivity"
+            android:name="com.romsper.firebase_authentication.ui.features.authorization.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.main.view.MainActivity"
+            android:name="com.romsper.firebase_authentication.ui.features.characterList.view.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 

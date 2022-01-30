@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication
+package com.romsper.firebase_authentication.ui.features.characterList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,14 @@ import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.romsper.firebase_authentication.R
 import com.romsper.firebase_authentication.databinding.FragmentCharacterListBinding
 import com.romsper.firebase_authentication.models.Result
 import com.romsper.firebase_authentication.ui.base.fragment.BaseFragment
-import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersItemClickListener
-import com.romsper.firebase_authentication.ui.features.main.adapter.CharactersPagingAdapter
-import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesAdapter
-import com.romsper.firebase_authentication.ui.features.main.adapter.FavoritesItemClickListener
+import com.romsper.firebase_authentication.ui.features.characterList.adapter.CharactersItemClickListener
+import com.romsper.firebase_authentication.ui.features.characterList.adapter.CharactersPagingAdapter
+import com.romsper.firebase_authentication.ui.features.characterList.adapter.FavoritesAdapter
+import com.romsper.firebase_authentication.ui.features.characterList.adapter.FavoritesItemClickListener
 import com.romsper.firebase_authentication.util.FavoriteItem
 import com.romsper.firebase_authentication.util.appToast
 import com.romsper.firebase_authentication.util.findNavController

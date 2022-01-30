@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication
+package com.romsper.firebase_authentication.ui.features.characterDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.romsper.firebase_authentication.R
 import com.romsper.firebase_authentication.databinding.FragmentCharacterDetailBinding
 import com.romsper.firebase_authentication.ui.base.fragment.BaseFragment
 import com.romsper.firebase_authentication.util.*

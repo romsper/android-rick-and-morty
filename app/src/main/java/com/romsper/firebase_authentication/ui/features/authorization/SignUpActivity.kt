@@ -1,11 +1,11 @@
-package com.romsper.firebase_authentication.ui.features.login
+package com.romsper.firebase_authentication.ui.features.authorization
 
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.romsper.firebase_authentication.databinding.ActivitySignUpBinding
-import com.romsper.firebase_authentication.ui.features.main.view.MainActivity
+import com.romsper.firebase_authentication.ui.features.characterList.view.MainActivity
 import com.romsper.firebase_authentication.util.BaseActivity
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {

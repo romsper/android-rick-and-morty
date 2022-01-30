@@ -1,4 +1,4 @@
-package com.romsper.firebase_authentication.ui.features.main.adapter
+package com.romsper.firebase_authentication.ui.features.characterList.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
