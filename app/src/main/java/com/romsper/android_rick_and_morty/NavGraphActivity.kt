@@ -3,7 +3,6 @@ package com.romsper.android_rick_and_morty
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import com.romsper.android_rick_and_morty.R
 
 
 class NavGraphActivity: AppCompatActivity() {

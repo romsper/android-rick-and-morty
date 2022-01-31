@@ -16,8 +16,8 @@ fun Context.appToast(msg: CharSequence, isShort: Boolean = true) {
 }
 
 fun Fragment.appToast(msg: CharSequence, isShort: Boolean = true) {
-    if (!isShort) Toast.makeText((this as Fragment).requireActivity(), msg, Toast.LENGTH_LONG).show()
-    else Toast.makeText((this as Fragment).requireActivity(), msg, Toast.LENGTH_SHORT).show()
+    if (!isShort) Toast.makeText(requireActivity(), msg, Toast.LENGTH_LONG).show()
+    else Toast.makeText(requireActivity(), msg, Toast.LENGTH_SHORT).show()
 }
 
 fun View.visible(){

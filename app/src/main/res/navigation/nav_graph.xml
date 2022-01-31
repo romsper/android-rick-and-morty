@@ -8,7 +8,9 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.romsper.android_rick_and_morty.ui.LoginFragment"
-        android:label="fragment_login" >
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+
         <action
             android:id="@+id/action_loginFragment_to_characterListFragment"
             app:destination="@id/characterListFragment" />

@@ -1,9 +1,12 @@
 package com.romsper.android_rick_and_morty.ui.base.fragment
 
+import android.content.ContentValues
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,9 +33,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes) {
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = requireActivity().getSharedPreferences("PREF_FAVORITES", AppCompatActivity.MODE_PRIVATE)
 
-        FirebaseCrashlytics.getInstance().log(
-            this.javaClass.simpleName
-        )
+        onBackPressed()
     }
 
     fun getFavorites(): List<FavoriteItem> {
@@ -62,5 +63,27 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes) {
                 gson.toJson(favorites).toString().replace("[", "").replace("]", "")
             ).apply()
         }
+    }
+
+    private fun onBackPressed() {
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Log.d(ContentValues.TAG, "Fragment back pressed invoked")
+                    // Do custom work here
+
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.signOut()
     }
 }

@@ -8,6 +8,8 @@ import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.romsper.android_rick_and_morty.R
+import com.romsper.android_rick_and_morty.databinding.FragmentCharacterListBinding
 import com.romsper.android_rick_and_morty.models.Result
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.CharacterListItemClickListener
@@ -18,8 +20,6 @@ import com.romsper.android_rick_and_morty.util.FavoriteItem
 import com.romsper.android_rick_and_morty.util.appToast
 import com.romsper.android_rick_and_morty.util.findNavController
 import com.romsper.android_rick_and_morty.util.gone
-import com.romsper.firebase_authentication.R
-import com.romsper.firebase_authentication.databinding.FragmentCharacterListBinding
 
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharacterListItemClickListener, FavoriteCharacterListItemClickListener {
