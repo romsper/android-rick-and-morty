@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/characterListFragment">
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.LoginFragment"
+        android:label="fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_characterListFragment"
+            app:destination="@id/characterListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/characterListFragment"
-        android:name="com.romsper.firebase_authentication.ui.features.characterList.CharacterListFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.characterList.CharacterListFragment"
         android:label="fragment_character_list"
         tools:layout="@layout/fragment_character_list" >
 
@@ -18,7 +27,7 @@
 
     <fragment
         android:id="@+id/characterDetailFragment"
-        android:name="com.romsper.firebase_authentication.ui.features.characterDetail.CharacterDetailFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.characterDetail.CharacterDetailFragment"
         android:label="fragment_character_detail"
         tools:layout="@layout/activity_character" >
 
@@ -27,4 +36,5 @@
         android:defaultValue="-1"
         app:argType="integer" />
     </fragment>
+
 </navigation>

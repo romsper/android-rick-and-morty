@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.romsper.firebase_authentication">
+    package="com.romsper.android_rick_and_morty">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebaseauthentication">
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.authorization.SignUpActivity"
+            android:name="com.romsper.android_rick_and_morty.ui.features.authorization.SignUpActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -18,23 +18,23 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.characterDetail.view.CharacterActivity"
+            android:name="com.romsper.android_rick_and_morty.ui.features.characterDetail.view.CharacterActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.authorization.ForgotActivity"
+            android:name="com.romsper.android_rick_and_morty.ui.features.authorization.ForgotActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.authorization.LoginActivity"
+            android:name="com.romsper.android_rick_and_morty.ui.features.authorization.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.romsper.firebase_authentication.ui.features.characterList.view.MainActivity"
+            android:name="com.romsper.android_rick_and_morty.ui.features.characterList.view.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".NavGraphActivity"
+        <activity android:name="com.romsper.android_rick_and_morty.NavGraphActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true">
             <intent-filter>
