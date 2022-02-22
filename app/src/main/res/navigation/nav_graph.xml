@@ -7,13 +7,19 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.romsper.android_rick_and_morty.ui.LoginFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
 
         <action
             android:id="@+id/action_loginFragment_to_characterListFragment"
             app:destination="@id/characterListFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
 
     <fragment
@@ -31,12 +37,24 @@
         android:id="@+id/characterDetailFragment"
         android:name="com.romsper.android_rick_and_morty.ui.features.characterDetail.CharacterDetailFragment"
         android:label="fragment_character_detail"
-        tools:layout="@layout/activity_character" >
+        tools:layout="@layout/fragment_character_detail" >
 
     <argument
         android:name="characterId"
         android:defaultValue="-1"
         app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.authorization.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.authorization.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
 
 </navigation>

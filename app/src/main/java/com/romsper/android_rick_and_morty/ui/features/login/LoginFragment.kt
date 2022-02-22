@@ -1,7 +1,6 @@
-package com.romsper.android_rick_and_morty.ui
+package com.romsper.android_rick_and_morty.ui.features.login
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -20,26 +18,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
-import com.romsper.android_rick_and_morty.NavGraphActivity
 import com.romsper.android_rick_and_morty.R
-import com.romsper.android_rick_and_morty.databinding.FragmentCharacterListBinding
 import com.romsper.android_rick_and_morty.databinding.FragmentLoginBinding
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
+import com.romsper.android_rick_and_morty.ui.features.authorization.ForgotPasswordFragment
 import com.romsper.android_rick_and_morty.ui.features.characterDetail.CharacterDetailFragmentArgs
 import com.romsper.android_rick_and_morty.util.appToast
 import com.romsper.android_rick_and_morty.util.findNavController
 
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     lateinit var signInIntent: Intent
-
-    private val safeArgs: CharacterDetailFragmentArgs by navArgs()
-    private val viewModel: LoginViewModel by viewModels()
-
-    private lateinit var snackbar: Snackbar
     lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
@@ -78,16 +69,19 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 } else {
                     binding.errorMessage.text = "* ${task.exception?.message}"
                 }
-
             }
         }
 
         binding.linkForgotPassword.setOnClickListener {
-            //TODO
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+            )
         }
 
         binding.linkSignUp.setOnClickListener {
-            //TODO
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+            )
         }
 
         binding.linkSkipAuth.setOnClickListener {

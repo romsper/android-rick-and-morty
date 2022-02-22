@@ -51,6 +51,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
 
         binding.logout.setOnClickListener {
             firebaseAuth.signOut()
+            findNavController().navigateUp()
         }
     }
 
