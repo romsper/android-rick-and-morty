@@ -1,4 +1,4 @@
-package com.romsper.android_rick_and_morty.ui.features.login
+package com.romsper.android_rick_and_morty.ui.features.authorization
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
@@ -10,19 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
 import com.romsper.android_rick_and_morty.R
 import com.romsper.android_rick_and_morty.databinding.FragmentLoginBinding
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
-import com.romsper.android_rick_and_morty.ui.features.authorization.ForgotPasswordFragment
-import com.romsper.android_rick_and_morty.ui.features.characterDetail.CharacterDetailFragmentArgs
 import com.romsper.android_rick_and_morty.util.appToast
 import com.romsper.android_rick_and_morty.util.findNavController
 

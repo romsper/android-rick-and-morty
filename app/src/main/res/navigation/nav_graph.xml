@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.romsper.android_rick_and_morty.ui.features.login.LoginFragment"
+        android:name="com.romsper.android_rick_and_morty.ui.features.authorization.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
 
