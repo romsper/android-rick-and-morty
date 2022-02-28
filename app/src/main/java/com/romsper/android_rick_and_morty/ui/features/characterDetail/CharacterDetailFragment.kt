@@ -11,7 +11,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.romsper.android_rick_and_morty.R
 import com.romsper.android_rick_and_morty.databinding.FragmentCharacterDetailBinding
+import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
+import com.romsper.android_rick_and_morty.ui.features.characterList.CharactersListViewModel
 import com.romsper.android_rick_and_morty.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -19,10 +21,10 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail) {
     private var _binding: FragmentCharacterDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var favoriteItemString: String
 
-    private val viewModel: CharacterDetailViewModel by viewModels()
+    private val viewModel: CharacterDetailViewModel by viewModelsFactory { CharacterDetailViewModel(requireActivity()) }
     private val safeArgs: CharacterDetailFragmentArgs by navArgs()
+    private lateinit var favoriteItem: Favorite
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,49 +37,21 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCharacterDetailBinding.bind(view)
 
-        existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
-
-        if (existingIds.contains(safeArgs.characterId.toString())) {
-            binding.btnFavorites.gone()
-            binding.btnRemoveFavorites.visible()
+        viewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
+            if (favoriteList.firstOrNull { it.characterId == safeArgs.characterId } != null) {
+                binding.btnFavorites.gone()
+                binding.btnRemoveFavorites.visible()
+            }
         }
+        viewModel.fetchFavorites()
 
         binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
 
         fetchCharacterById()
         addCharacterToFavoriteList()
         removeCharacterFromFavoriteList()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun addCharacterToFavoriteList() {
-        binding.btnFavorites.setOnClickListener {
-            if (existingIds.contains(favoriteItemString)) appToast("Already added")
-            else sharedPreferences.edit().putString(
-                "KEY_FAVORITES",
-                if (existingIds.isBlank()) favoriteItemString else existingIds.plus(",")
-                    .plus(favoriteItemString)
-            ).apply()
-            appToast("${favoriteItem.name} added")
-
-            binding.btnFavorites.gone()
-            binding.btnRemoveFavorites.visible()
-        }
-    }
-
-    private fun removeCharacterFromFavoriteList() {
-        binding.btnRemoveFavorites.setOnClickListener {
-            removeFavoriteItem(item = favoriteItem)
-            binding.btnFavorites.visible()
-            binding.btnRemoveFavorites.gone()
-            appToast("${favoriteItem.name} removed", true)
-        }
     }
 
     private fun fetchCharacterById() {
@@ -88,8 +62,7 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
                 findNavController().navigateUp()
             } else {
                 binding.loading.gone()
-                favoriteItem = FavoriteItem(id = character.id, avatarUrl = character.image, name = character.name)
-                favoriteItemString = gson.toJson(favoriteItem).toString()
+                favoriteItem = Favorite(id = null, characterId = character.id, avatarUrl = character.image, name = character.name)
 
                 Glide.with(binding.blurAvatar.context)
                     .load(character.image)
@@ -107,5 +80,28 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
             }
         }
         viewModel.fetchCharacterById(characterId = safeArgs.characterId)
+    }
+
+    private fun addCharacterToFavoriteList() {
+        binding.btnFavorites.setOnClickListener {
+            viewModel.fetchFavorites()
+            viewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
+                if (favoriteList.firstOrNull { it.characterId == favoriteItem.characterId } == null) {
+                    viewModel.addFavorite(favorite = favoriteItem)
+                    appToast("${favoriteItem.name} added")
+                }
+            }
+            binding.btnFavorites.gone()
+            binding.btnRemoveFavorites.visible()
+        }
+    }
+
+    private fun removeCharacterFromFavoriteList() {
+        binding.btnRemoveFavorites.setOnClickListener {
+            viewModel.removeFavoriteItem(characterId = favoriteItem.characterId)
+            binding.btnFavorites.visible()
+            binding.btnRemoveFavorites.gone()
+            appToast("${favoriteItem.name} removed", true)
+        }
     }
 }

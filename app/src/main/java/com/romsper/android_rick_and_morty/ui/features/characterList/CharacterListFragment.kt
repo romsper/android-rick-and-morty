@@ -5,21 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.romsper.android_rick_and_morty.R
 import com.romsper.android_rick_and_morty.databinding.FragmentCharacterListBinding
+import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.models.Result
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.CharacterListItemClickListener
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.CharacterListPagingAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListItemClickListener
-import com.romsper.android_rick_and_morty.util.FavoriteItem
-import com.romsper.android_rick_and_morty.util.appToast
-import com.romsper.android_rick_and_morty.util.findNavController
-import com.romsper.android_rick_and_morty.util.gone
+import com.romsper.android_rick_and_morty.util.*
+import kotlinx.coroutines.Job
 
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharacterListItemClickListener, FavoriteCharacterListItemClickListener {
@@ -27,7 +25,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     private var _binding: FragmentCharacterListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CharactersListViewModel by viewModels()
+    private val viewModel: CharactersListViewModel by viewModelsFactory { CharactersListViewModel(requireActivity()) }
     private lateinit var characterListPagingAdapter: CharacterListPagingAdapter
     private lateinit var favoriteCharacterListAdapter: FavoriteCharacterListAdapter
     var characterName: String = ""
@@ -46,18 +44,11 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         initCharacterListPagingAdapter()
         fetchCharacterList()
         initFavoritesAdapter()
-        collectFavorites(getFavorites())
+        fetchFavoriteList()
         initSearch()
 
         binding.logout.setOnClickListener {
-            firebaseAuth.signOut()
-            findNavController().navigateUp()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun initCharacterListPagingAdapter() {
@@ -101,15 +92,9 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         }
     }
 
-    private fun collectFavorites(favorites: List<FavoriteItem>) {
-        if (favorites.isNullOrEmpty()) {
-            binding.titleFavorites.gone()
-            binding.recyclerFavorites.gone()
-        } else {
-            favoriteCharacterListAdapter.addFavorites(favorites)
-        }
+    private fun collectFavorites(favorites: List<Favorite>) {
+        favoriteCharacterListAdapter.addFavorites(favorites)
     }
-
 
     override fun onCharacterListItemClickListener(item: Result) {
         findNavController().navigate(
@@ -119,20 +104,19 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         )
     }
 
-    override fun onFavoriteListItemClickListener(item: FavoriteItem) {
+    override fun onFavoriteListItemClickListener(item: Favorite) {
         findNavController().navigate(
             CharacterListFragmentDirections.actionCharacterListFragmentToCharacterDetailFragment(
-                characterId = item.id!!
+                characterId = item.characterId
             )
         )
     }
 
-    override fun onRemoveFavoritesItemClickListener(item: FavoriteItem) {
-        existingIds = sharedPreferences.getString("KEY_FAVORITES", "")!!
-        removeFavoriteItem(item = item)
+    override fun onRemoveFavoritesItemClickListener(item: Favorite) {
+        viewModel.removeFavoriteItem(characterId = item.characterId)
         initFavoritesAdapter()
-        collectFavorites(getFavorites())
-        appToast("${favoriteItem.name} removed", true)
+        fetchFavoriteList()
+        appToast("${item.name} removed", true)
     }
 
     private fun initSearch() {
@@ -158,23 +142,15 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         })
     }
 
-//    private fun fetchCharacterList(search: Boolean = false) {
-//        when (search) {
-//            false -> {
-//                lifecycleScope.launch {
-//                    viewModel.fetchCharacterList().collectLatest { characters ->
-//                        charactersPagingAdapter.submitData(characters)
-//                    }
-//                }
-//            }
-//            true -> {
-//                lifecycleScope.launch {
-//                    viewModel.fetchSearchCharacterList(characterName = characterName)
-//                        .collectLatest { characters ->
-//                            charactersPagingAdapter.submitData(characters)
-//                        }
-//                }
-//            }
-//        }
-//    }
+    private fun fetchFavoriteList() {
+        viewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
+            if (favoriteList.isNullOrEmpty()) {
+                binding.titleFavorites.gone()
+                binding.recyclerFavorites.gone()
+            } else {
+                collectFavorites(favorites = favoriteList)
+            }
+        }
+        viewModel.fetchFavorites()
+    }
 }

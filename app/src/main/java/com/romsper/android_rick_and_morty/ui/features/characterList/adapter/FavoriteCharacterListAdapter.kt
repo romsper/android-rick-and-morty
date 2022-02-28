@@ -8,11 +8,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.romsper.android_rick_and_morty.databinding.RecyclerFavoritesItemBinding
+import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.util.FavoriteItem
 
 
 class FavoriteCharacterListAdapter(
-    private val items: ArrayList<FavoriteItem>,
+    private val items: ArrayList<Favorite>,
     private val favoriteCharacterListItemClickListener: FavoriteCharacterListItemClickListener
 ) : RecyclerView.Adapter<FavoriteCharacterListAdapter.ViewHolder>() {
 
@@ -34,7 +35,7 @@ class FavoriteCharacterListAdapter(
 
     inner class ViewHolder(private val binding: RecyclerFavoritesItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FavoriteItem) {
+        fun bind(item: Favorite) {
             binding.btnRemoveFavorites.setOnClickListener {
                 favoriteCharacterListItemClickListener.onRemoveFavoritesItemClickListener(item)
             }
@@ -47,7 +48,7 @@ class FavoriteCharacterListAdapter(
         }
     }
 
-    fun addFavorites(favorites: List<FavoriteItem>) {
+    fun addFavorites(favorites: List<Favorite>) {
         this.items.apply {
             clear()
             addAll(favorites)
