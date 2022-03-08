@@ -59,7 +59,7 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
             if (character == null) {
                 binding.loading.visible()
                 appToast("Network error")
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             } else {
                 binding.loading.gone()
                 favoriteItem = Favorite(id = null, characterId = character.id, avatarUrl = character.image, name = character.name)
@@ -84,7 +84,6 @@ class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail)
 
     private fun addCharacterToFavoriteList() {
         binding.btnFavorites.setOnClickListener {
-            viewModel.fetchFavorites()
             viewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
                 if (favoriteList.firstOrNull { it.characterId == favoriteItem.characterId } == null) {
                     viewModel.addFavorite(favorite = favoriteItem)

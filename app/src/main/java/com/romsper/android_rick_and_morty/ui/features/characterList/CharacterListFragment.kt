@@ -28,7 +28,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     private val viewModel: CharactersListViewModel by viewModelsFactory { CharactersListViewModel(requireActivity()) }
     private lateinit var characterListPagingAdapter: CharacterListPagingAdapter
     private lateinit var favoriteCharacterListAdapter: FavoriteCharacterListAdapter
-    var characterName: String = ""
+    private var characterName: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +41,14 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCharacterListBinding.bind(view)
 
-        initCharacterListPagingAdapter()
-        fetchCharacterList()
-        initFavoritesAdapter()
-        fetchFavoriteList()
         initSearch()
+        initCharacterListPagingAdapter()
+        initFavoritesAdapter()
+        fetchCharacterList()
+        fetchFavoriteList()
 
         binding.logout.setOnClickListener {
+
         }
     }
 
@@ -90,10 +91,6 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
                     }
             }
         }
-    }
-
-    private fun collectFavorites(favorites: List<Favorite>) {
-        favoriteCharacterListAdapter.addFavorites(favorites)
     }
 
     override fun onCharacterListItemClickListener(item: Result) {
@@ -148,7 +145,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
                 binding.titleFavorites.gone()
                 binding.recyclerFavorites.gone()
             } else {
-                collectFavorites(favorites = favoriteList)
+                favoriteCharacterListAdapter.addFavorites(favorites = favoriteList)
             }
         }
         viewModel.fetchFavorites()
