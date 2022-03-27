@@ -17,7 +17,6 @@ import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.Char
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListItemClickListener
 import com.romsper.android_rick_and_morty.util.*
-import kotlinx.coroutines.Job
 
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharacterListItemClickListener, FavoriteCharacterListItemClickListener {
@@ -46,10 +45,12 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         initFavoritesAdapter()
         fetchCharacterList()
         fetchFavoriteList()
+    }
 
-        binding.logout.setOnClickListener {
-
-        }
+    override fun onResume() {
+        super.onResume()
+        initFavoritesAdapter()
+        fetchFavoriteList()
     }
 
     private fun initCharacterListPagingAdapter() {
@@ -111,9 +112,9 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
 
     override fun onRemoveFavoritesItemClickListener(item: Favorite) {
         viewModel.removeFavoriteItem(characterId = item.characterId)
+        appToast("${item.name} removed", true)
         initFavoritesAdapter()
         fetchFavoriteList()
-        appToast("${item.name} removed", true)
     }
 
     private fun initSearch() {

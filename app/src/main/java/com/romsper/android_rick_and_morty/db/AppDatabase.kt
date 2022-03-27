@@ -1,5 +1,6 @@
 package com.romsper.android_rick_and_morty.db
 
+import android.app.Application
 import androidx.fragment.app.FragmentActivity
 import androidx.room.Database
 import androidx.room.Room

@@ -9,8 +9,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.romsper.android_rick_and_morty.databinding.RecyclerFavoritesItemBinding
 import com.romsper.android_rick_and_morty.db.entities.Favorite
-import com.romsper.android_rick_and_morty.util.FavoriteItem
-
 
 class FavoriteCharacterListAdapter(
     private val items: ArrayList<Favorite>,
