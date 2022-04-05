@@ -15,7 +15,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="title">Rick and Morty</string>
-    <string name="title_contacts">Contacts</string>
+    <string name="title_characters">Characters</string>
     <string name="title_favorites">Favorites</string>
     <string name="no_account">Don\'t have an account? Join us</string>
     <string name="skip_auth">Don\'t want to create an account?</string>

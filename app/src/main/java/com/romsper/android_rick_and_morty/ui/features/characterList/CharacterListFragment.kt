@@ -41,10 +41,10 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         _binding = FragmentCharacterListBinding.bind(view)
 
         initSearch()
-        initCharacterListPagingAdapter()
         initFavoritesAdapter()
-        fetchCharacterList()
+        initCharacterListPagingAdapter()
         fetchFavoriteList()
+        fetchCharacterList()
     }
 
     override fun onResume() {
@@ -54,22 +54,22 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     }
 
     private fun initCharacterListPagingAdapter() {
-        binding.recyclerContacts.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerCharacters.layoutManager = LinearLayoutManager(requireActivity())
         characterListPagingAdapter = CharacterListPagingAdapter(this)
-        binding.recyclerContacts.addItemDecoration(
+        binding.recyclerCharacters.addItemDecoration(
             DividerItemDecoration(
-                binding.recyclerContacts.context,
-                (binding.recyclerContacts.layoutManager as LinearLayoutManager).orientation
+                binding.recyclerCharacters.context,
+                (binding.recyclerCharacters.layoutManager as LinearLayoutManager).orientation
             )
         )
-        binding.recyclerContacts.adapter = characterListPagingAdapter
+        binding.recyclerCharacters.adapter = characterListPagingAdapter
     }
 
     private fun initFavoritesAdapter() {
         binding.recyclerFavorites.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         favoriteCharacterListAdapter = FavoriteCharacterListAdapter(arrayListOf(), this)
-        binding.recyclerContacts.addItemDecoration(
+        binding.recyclerFavorites.addItemDecoration(
             DividerItemDecoration(
                 binding.recyclerFavorites.context,
                 (binding.recyclerFavorites.layoutManager as LinearLayoutManager).orientation

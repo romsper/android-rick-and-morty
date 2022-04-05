@@ -74,11 +74,11 @@
         tools:listitem="@layout/recycler_favorites_item" />
 
     <TextView
-        android:id="@+id/titleMyContacts"
+        android:id="@+id/titleMyCharacters"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/title_contacts"
+        android:text="@string/title_characters"
         android:textColor="@color/text"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -87,14 +87,14 @@
         app:layout_constraintTop_toBottomOf="@id/recyclerFavorites" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerContacts"
+        android:id="@+id/recyclerCharacters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleMyContacts"
+        app:layout_constraintTop_toBottomOf="@id/titleMyCharacters"
         tools:listitem="@layout/recycler_character_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

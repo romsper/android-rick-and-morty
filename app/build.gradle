@@ -50,7 +50,7 @@ dependencies {
 
     //Paging
     implementation "android.arch.paging:runtime:1.0.1"
-    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
     //Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
@@ -70,10 +70,10 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.8'
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
     implementation platform('com.google.firebase:firebase-bom:29.0.0')
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     //Network
