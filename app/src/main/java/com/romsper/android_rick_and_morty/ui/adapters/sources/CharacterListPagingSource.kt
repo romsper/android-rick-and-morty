@@ -5,40 +5,27 @@ import androidx.paging.PagingState
 import com.romsper.android_rick_and_morty.models.Result
 import com.romsper.android_rick_and_morty.repository.AppRepository
 
-class CharacterListPagingSource(private val appRepository: AppRepository) : PagingSource<Int, Result>() {
+class CharacterListPagingSource(
+    private val appRepository: AppRepository,
+    private val name: String
+) : PagingSource<Int, Result>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         return try {
-            val nextPageNumber = params.key ?: 1
-            val response = appRepository.getCharacters(page = nextPageNumber)
+            val page = params.key ?: 1
+            val pageSize = params.loadSize.coerceAtMost(20)
+
+            println(name)
+
+            val response =
+                if (name.isBlank())
+                    appRepository.getCharacters(page = page)
+                else
+                    appRepository.searchCharacters(characterName = name, page = page)
             LoadResult.Page(
                 data = response.results,
-                prevKey = null,
-                nextKey = response.info.next.filter { it.isDigit() }.toInt()
-            )
-        } catch (e: Exception) {
-            LoadResult.Error(e)
-        }
-    }
-
-    override fun getRefreshKey(state: PagingState<Int, Result>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-        }
-    }
-}
-
-class SearchCharacterListPagingSource(private val appRepository: AppRepository, private val characterName: String) : PagingSource<Int, Result>() {
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
-        return try {
-            val nextPageNumber = params.key ?: 1
-            val response = appRepository.searchCharacters(characterName = characterName, page = nextPageNumber)
-            LoadResult.Page(
-                data = response.results,
-                prevKey = null,
-                nextKey = response.info.next.filter { it.isDigit() }.toInt()
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (response.results.size < pageSize) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

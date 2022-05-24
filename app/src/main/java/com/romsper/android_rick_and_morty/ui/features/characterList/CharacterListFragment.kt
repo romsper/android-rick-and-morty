@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.romsper.android_rick_and_morty.R
@@ -12,11 +13,13 @@ import com.romsper.android_rick_and_morty.databinding.FragmentCharacterListBindi
 import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.models.Result
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
+import com.romsper.android_rick_and_morty.ui.features.characterList.CharactersListViewModel.Companion.characterName
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.CharacterListItemClickListener
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.CharacterListPagingAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListItemClickListener
 import com.romsper.android_rick_and_morty.util.*
+import kotlinx.coroutines.flow.collectLatest
 
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharacterListItemClickListener, FavoriteCharacterListItemClickListener {
@@ -24,10 +27,13 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     private var _binding: FragmentCharacterListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CharactersListViewModel by viewModelsFactory { CharactersListViewModel(requireActivity()) }
+    private val viewModel: CharactersListViewModel by viewModelsFactory {
+        CharactersListViewModel(
+            requireActivity()
+        )
+    }
     private lateinit var characterListPagingAdapter: CharacterListPagingAdapter
     private lateinit var favoriteCharacterListAdapter: FavoriteCharacterListAdapter
-    private var characterName: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,19 +84,9 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         binding.recyclerFavorites.adapter = favoriteCharacterListAdapter
     }
 
-    private fun fetchCharacterList(search: Boolean = false) {
-        when (search) {
-            false -> {
-                viewModel.fetchCharacterList().observe(viewLifecycleOwner) { characterList ->
-                    characterListPagingAdapter.submitData(lifecycle, characterList)
-                }
-            }
-            true -> {
-                viewModel.fetchSearchCharacterList(characterName = characterName)
-                    .observe(viewLifecycleOwner) { searchCharacterList ->
-                        characterListPagingAdapter.submitData(lifecycle, searchCharacterList)
-                    }
-            }
+    private fun fetchCharacterList() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.characters.collectLatest(characterListPagingAdapter::submitData)
         }
     }
 
@@ -122,7 +118,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
                     characterName = query
-                    fetchCharacterList(search = true)
+                    fetchCharacterList()
                 }
                 return true
             }
@@ -130,10 +126,10 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrBlank()) {
                     characterName = newText
-                    fetchCharacterList(search = true)
+                    fetchCharacterList()
                 } else {
                     characterName = ""
-                    fetchCharacterList(search = false)
+                    fetchCharacterList()
                 }
                 return true
             }
