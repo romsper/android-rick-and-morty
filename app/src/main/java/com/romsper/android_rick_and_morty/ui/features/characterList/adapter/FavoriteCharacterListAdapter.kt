@@ -1,5 +1,6 @@
 package com.romsper.android_rick_and_morty.ui.features.characterList.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -46,10 +47,12 @@ class FavoriteCharacterListAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addFavorites(favorites: List<Favorite>) {
         this.items.apply {
             clear()
             addAll(favorites)
+            notifyDataSetChanged()
         }
     }
 }

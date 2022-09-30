@@ -1,12 +1,13 @@
 package com.romsper.android_rick_and_morty.ui.features.characterList
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.romsper.android_rick_and_morty.R
 import com.romsper.android_rick_and_morty.databinding.FragmentCharacterListBinding
@@ -19,19 +20,17 @@ import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.Char
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListAdapter
 import com.romsper.android_rick_and_morty.ui.features.characterList.adapter.FavoriteCharacterListItemClickListener
 import com.romsper.android_rick_and_morty.util.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
     CharacterListItemClickListener, FavoriteCharacterListItemClickListener {
 
+    private val viewModel: CharactersListViewModel by viewModels()
     private var _binding: FragmentCharacterListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CharactersListViewModel by viewModelsFactory {
-        CharactersListViewModel(
-            requireActivity()
-        )
-    }
     private lateinit var characterListPagingAdapter: CharacterListPagingAdapter
     private lateinit var favoriteCharacterListAdapter: FavoriteCharacterListAdapter
 
@@ -49,25 +48,21 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         initSearch()
         initFavoritesAdapter()
         initCharacterListPagingAdapter()
-        fetchFavoriteList()
+
+        observeFavoriteList()
+        viewModel.fetchFavorites()
+
         fetchCharacterList()
     }
 
     override fun onResume() {
         super.onResume()
-        initFavoritesAdapter()
-        fetchFavoriteList()
+        observeFavoriteList()
     }
 
     private fun initCharacterListPagingAdapter() {
         binding.recyclerCharacters.layoutManager = LinearLayoutManager(requireActivity())
         characterListPagingAdapter = CharacterListPagingAdapter(this)
-        binding.recyclerCharacters.addItemDecoration(
-            DividerItemDecoration(
-                binding.recyclerCharacters.context,
-                (binding.recyclerCharacters.layoutManager as LinearLayoutManager).orientation
-            )
-        )
         binding.recyclerCharacters.adapter = characterListPagingAdapter
     }
 
@@ -75,12 +70,6 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         binding.recyclerFavorites.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         favoriteCharacterListAdapter = FavoriteCharacterListAdapter(arrayListOf(), this)
-        binding.recyclerFavorites.addItemDecoration(
-            DividerItemDecoration(
-                binding.recyclerFavorites.context,
-                (binding.recyclerFavorites.layoutManager as LinearLayoutManager).orientation
-            )
-        )
         binding.recyclerFavorites.adapter = favoriteCharacterListAdapter
     }
 
@@ -106,11 +95,10 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         )
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onRemoveFavoritesItemClickListener(item: Favorite) {
         viewModel.removeFavoriteItem(characterId = item.characterId)
         appToast("${item.name} removed", true)
-        initFavoritesAdapter()
-        fetchFavoriteList()
     }
 
     private fun initSearch() {
@@ -136,7 +124,8 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
         })
     }
 
-    private fun fetchFavoriteList() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeFavoriteList() {
         viewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
             if (favoriteList.isNullOrEmpty()) {
                 binding.titleFavorites.gone()
@@ -144,7 +133,7 @@ class CharacterListFragment : BaseFragment(R.layout.fragment_character_list),
             } else {
                 favoriteCharacterListAdapter.addFavorites(favorites = favoriteList)
             }
+            favoriteCharacterListAdapter.notifyDataSetChanged()
         }
-        viewModel.fetchFavorites()
     }
 }

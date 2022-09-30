@@ -13,16 +13,16 @@ import com.romsper.android_rick_and_morty.R
 import com.romsper.android_rick_and_morty.databinding.FragmentCharacterDetailBinding
 import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.ui.base.fragment.BaseFragment
-import com.romsper.android_rick_and_morty.ui.features.characterList.CharactersListViewModel
 import com.romsper.android_rick_and_morty.util.*
+import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-
+@AndroidEntryPoint
 class CharacterDetailFragment : BaseFragment(R.layout.fragment_character_detail) {
     private var _binding: FragmentCharacterDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CharacterDetailViewModel by viewModelsFactory { CharacterDetailViewModel(requireActivity()) }
+    private val viewModel: CharacterDetailViewModel by viewModels()
     private val safeArgs: CharacterDetailFragmentArgs by navArgs()
     private lateinit var favoriteItem: Favorite
 

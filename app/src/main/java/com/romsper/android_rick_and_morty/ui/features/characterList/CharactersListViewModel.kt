@@ -1,21 +1,28 @@
 package com.romsper.android_rick_and_morty.ui.features.characterList
 
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
-import androidx.paging.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.romsper.android_rick_and_morty.db.entities.Favorite
 import com.romsper.android_rick_and_morty.models.Result
 import com.romsper.android_rick_and_morty.repository.AppRepository
 import com.romsper.android_rick_and_morty.ui.adapters.sources.CharacterListPagingSource
-import com.romsper.android_rick_and_morty.ui.base.viewModel.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class CharactersListViewModel(activity: FragmentActivity) : BaseViewModel(activity = activity) {
-    private val appRepository = AppRepository(activity)
+@HiltViewModel
+class CharactersListViewModel @Inject constructor(
+    private val appRepository: AppRepository
+) : ViewModel() {
 
     companion object {
         var characterName: String = ""
@@ -29,21 +36,23 @@ class CharactersListViewModel(activity: FragmentActivity) : BaseViewModel(activi
         pagingSourceFactory = {
             CharacterListPagingSource(appRepository = appRepository, name = characterName)
         }
-    ).flow.cachedIn(viewModelScope).stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+    ).flow
+        .cachedIn(viewModelScope)
+        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
     private val _favoriteListLiveData = MutableLiveData<List<Favorite>>()
     val favoriteList: LiveData<List<Favorite>> = _favoriteListLiveData
 
     fun fetchFavorites() = viewModelScope.launch {
-        val favoriteList = appRepository.database.favoriteDao().getFavoriteCharacters()
+        val favoriteList = appRepository.getFavoritesDB()
         _favoriteListLiveData.postValue(favoriteList)
     }
 
     fun addFavorite(favorite: Favorite) = viewModelScope.launch {
-        appRepository.database.favoriteDao().addFavoriteCharacter(favorite = favorite)
+        appRepository.addFavoriteDB(favorite = favorite)
     }
 
     fun removeFavoriteItem(characterId: Int) = viewModelScope.launch {
-        appRepository.database.favoriteDao().removeFavoriteCharacter(characterId = characterId)
+        appRepository.removeFavoriteDB(characterId = characterId)
     }
 }
