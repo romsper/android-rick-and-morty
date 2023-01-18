@@ -21,4 +21,5 @@
     <string name="skip_auth">Don\'t want to create an account?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_compose">ComposeActivity</string>
 </resources>
